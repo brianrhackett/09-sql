@@ -56,7 +56,7 @@ INNER JOIN address a ON a.address_id = s.address_id;
 -- 6b
 SELECT s.first_name, s.last_name, SUM(p.amount) as amt 
 FROM staff s
-LEFT JOIN payment p ON p.staff_id = s.staff_id
+INNER JOIN payment p ON p.staff_id = s.staff_id
 GROUP BY s.staff_id;
 
 -- 6c
@@ -74,7 +74,7 @@ WHERE film.title = "Hunchback Impossible";
 -- 6e
 SELECT c.first_name, c.last_name, SUM(p.amount)
 FROM customer c
-LEFT JOIN payment p ON p.customer_id = c.customer_id
+INNER JOIN payment p ON p.customer_id = c.customer_id
 GROUP BY p.customer_id
 ORDER BY c.last_name;
 
@@ -96,9 +96,9 @@ WHERE
 -- 7c
 SELECT c.first_name, c.last_name, c.email
 FROM customer c
-LEFT JOIN address a ON a.address_id = c.address_id
-LEFT JOIN city ON city.city_id = a.city_id
-LEFT JOIN country ON country.country_id = city.country_id
+INNER JOIN address a ON a.address_id = c.address_id
+INNER JOIN city ON city.city_id = a.city_id
+INNER JOIN country ON country.country_id = city.country_id
 WHERE country.country = 'Canada';
 
 -- 7d
@@ -112,7 +112,7 @@ WHERE c.name = 'family';
 SELECT f.title, COUNT(r.rental_id) as rented_amt
 FROM film f
 INNER JOIN inventory i ON i.film_id = f.film_id
-LEFT JOIN rental r ON r.inventory_id = i.inventory_id
+INNER JOIN rental r ON r.inventory_id = i.inventory_id
 GROUP BY f.film_id
 ORDER BY COUNT(r.rental_id) desc;
 
