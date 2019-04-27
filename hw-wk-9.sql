@@ -62,19 +62,19 @@ GROUP BY s.staff_id;
 -- 6c
 SELECT f.title, COUNT(fa.actor_id) as actor_count
 FROM film f
-INNER JOIN film_actor fa ON f.film_id = fa.film_id
+LEFT JOIN film_actor fa ON f.film_id = fa.film_id
 GROUP BY f.film_id;
 
 -- 6d
 SELECT count(inventory_id) as inventory_count
 FROM inventory
-INNER JOIN film ON film.film_id = inventory.film_id
+LEFT JOIN film ON film.film_id = inventory.film_id
 WHERE film.title = "Hunchback Impossible";
 
 -- 6e
 SELECT c.first_name, c.last_name, SUM(p.amount)
 FROM customer c
-INNER JOIN payment p ON p.customer_id = c.customer_id
+LEFT JOIN payment p ON p.customer_id = c.customer_id
 GROUP BY p.customer_id
 ORDER BY c.last_name;
 
@@ -96,7 +96,7 @@ WHERE
 -- 7c
 SELECT c.first_name, c.last_name, c.email
 FROM customer c
-INNER JOIN address a ON a.address_id = c.address_id
+LEFT JOIN address a ON a.address_id = c.address_id
 INNER JOIN city ON city.city_id = a.city_id
 INNER JOIN country ON country.country_id = city.country_id
 WHERE country.country = 'Canada';
@@ -112,15 +112,15 @@ WHERE c.name = 'family';
 SELECT f.title, COUNT(r.rental_id) as rented_amt
 FROM film f
 INNER JOIN inventory i ON i.film_id = f.film_id
-INNER JOIN rental r ON r.inventory_id = i.inventory_id
+LEFT JOIN rental r ON r.inventory_id = i.inventory_id
 GROUP BY f.film_id
 ORDER BY COUNT(r.rental_id) desc;
 
 -- 7f
 SELECT store.store_id, SUM(p.amount) as dollars
-FROM payment p
-INNER JOIN staff ON staff.staff_id = p.staff_id
-INNER JOIN store ON store.store_id = staff.store_id
+FROM store 
+LEFT JOIN staff ON store.store_id = staff.store_id
+INNER JOIN payment p ON staff.staff_id = p.staff_id
 GROUP BY store.store_id;
 
 -- 7g
@@ -137,7 +137,7 @@ INNER JOIN film_category fc ON fc.category_id = cat.category_id
 INNER JOIN film f ON f.film_id = fc.film_id
 INNER JOIN inventory i ON i.film_id = f.film_id
 INNER JOIN rental r ON r.inventory_id = i.inventory_id
-INNER JOIN payment p ON p.rental_id = r.rental_id
+LEFT JOIN payment p ON p.rental_id = r.rental_id
 GROUP BY fc.category_id
 ORDER BY SUM(p.amount)
 LIMIT 0,5;
@@ -152,7 +152,7 @@ INNER JOIN film_category fc ON fc.category_id = cat.category_id
 INNER JOIN film f ON f.film_id = fc.film_id
 INNER JOIN inventory i ON i.film_id = f.film_id
 INNER JOIN rental r ON r.inventory_id = i.inventory_id
-INNER JOIN payment p ON p.rental_id = r.rental_id
+LEFT JOIN payment p ON p.rental_id = r.rental_id
 GROUP BY fc.category_id
 ORDER BY SUM(p.amount)
 LIMIT 0,5;
